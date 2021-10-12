@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style type="text/css">
+    .desc {
+      text-align: center;
+    }
+    .outer, .wrap, #html2canvas, .image_text {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .wrap {
+      text-align: center;
+    }
+    #imagewrap {
+      background-color: white;
+    }
+    #wow {
+      color: red;
+      display: block;
+      transform: translate(0px, -12px) rotate(-10deg);
+    }
+  </style>
+  <script src="./html2canvas.js"></script>
+
+</head>
+<body>
+  <div class="outer">
+    <p>DOM-rendered</p>
+    <p>&nbsp;</p>
+    <div id="imagewrap" class="wrap" style="border-style: solid;">
+      <img src="https://i.imgur.com/EFM76Qe.jpg?1" id="img_prev" width="170" />
+      <h3 class="desc">Something <br /><span style="color: blue;">mahesh</span></h3>
+      <span id="wow">leoeadgemahesh!</span>
+    </div>
+  </div>
+  <div id="canvasWrapper" class="outer">
+      <p>Canvas-rendered <button id="rerender">Re-Render!</button></p>
+    <p>Or, <a id="downloadLink" download="cat.png">Click Here to Download!</a>
+  </div>
+</body>
+<script type="text/javascript">
+  function reRender() {
+    html2canvas(document.getElementById("imagewrap"), {
+      onrendered: function(canvas) {
+        canvas.id = "html2canvas";
+        var oldcanvas = document.getElementById("html2canvas");
+        if(oldcanvas) oldcanvas.parentNode.removeChild(oldcanvas);
+        document.getElementById("canvasWrapper").appendChild(canvas);
+        var image = canvas.toDataURL("image/png");
+        document.getElementById("downloadLink").href = image;
+      },
+      useCORS: true
+    });
+}
+
+document.getElementById("rerender").onclick = reRender;
+</script>
+</html>
